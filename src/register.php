@@ -17,29 +17,29 @@
 
 <body>
 
-  <div class="SumSorologinTitle">
-    <h1 class="title">SumSoro</h1>
-  </div>
 
-  <div class="offcanvas-body">
-    <p>Faça o seu registro ! </p>
+  <h2 class = "col-md-3 mx-auto">Área de registro: </h2>
+  <div class="col-md-3 container d-flex align-items-center" style="min-height: 50vh;">
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
-         <label for = "email">Email</label>
-         <input type = "email" name  = "email" placeholder="Digite o seu email">
-         <label for = "password">Senha</label>
-         <input type  = "password" name  = "password" placeholder  = "Registre a sua senha">
-         
-         <button type="submit" class="p-1 mb-1 bg-success text-white">Enviar</button>
+      <label for="email">Email</label>
+      <input type="email" name="email" placeholder="Digite o seu email">
+      <br>
+      <br>
+      <label for="password">Senha</label>
+      <input type="password" name="password" placeholder="Registre a sua senha" >
+      <br>
+      <br>
+      <button type="submit" class="p-1 mb-1 bg-success text-white">Registrar-se</button>
     </form>
-
     <p>Já tem registro ? Entre <a href="login.php">aqui</a></p>
 
   </div>
-  </div>
-  </div>
-  </nav>
-  </header>
 
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous">
+  </script>
 </body>
 
 </html>
