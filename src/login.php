@@ -1,68 +1,68 @@
 <?php
 session_start();
- 
+
 // Verifique se o usuário já está logado, em caso afirmativo, redirecione-o para a página de boas-vindas
-if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
-    header("location: index.php");
-    exit;
+if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
+  header("location: index.php");
+  exit;
 }
- 
-require_once ('connection.php');
+
+require_once('connection.php');
 $email = $password = "";
 $email_err = $password_err = $login_err = "";
- 
-if($_SERVER["REQUEST_METHOD"] == "POST"){
- 
-    if(empty(trim($_POST["email"]))){
-        $username_err = "Por favor, seu email.";
-    } else{
-        $username = trim($_POST["email"]);
-    }
-    
-    if(empty(trim($_POST["password"]))){
-        $password_err = "Por favor, insira sua senha.";
-    } else{
-        $password = trim($_POST["password"]);
-    }
-    
-    if(empty($email_err) && empty($password_err)){
-        $sql = "SELECT id_user, email, password FROM users WHERE email = :email";
-        
-        if($stmt = $pdo->prepare($sql)){
-            $stmt->bindParam(":email", $param_email, PDO::PARAM_STR);
-            
-            $param_email = trim($_POST["email"]);
-            
-            if($stmt->execute()){
-                if($stmt->rowCount() == 1){
-                    if($row = $stmt->fetch()){
-                        $id = $row["id_user"];
-                        $username = $row["email"];
-                        $hashed_password = $row["password"];
-                        if(password_verify($password, $hashed_password)){
-                            session_start();
-                            
-                            $_SESSION["loggedin"] = true;
-                            $_SESSION["id_user"] = $id;
-                            $_SESSION["username"] = $email;                            
-                            
-                            header("location: index.php");
-                        } else{
-                            $login_error = "Email de usuário ou senha inválidos.";
-                        }
-                    }
-                } else{
-                    $login_error = "Email de usuário ou senha inválidos.";
-                }
-            } else{
-                echo "Ops! Algo deu errado. Por favor, tente novamente mais tarde.";
-            }
 
-            unset($stmt);
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+  if (empty(trim($_POST["email"]))) {
+    $username_err = "Por favor, seu email.";
+  } else {
+    $username = trim($_POST["email"]);
+  }
+
+  if (empty(trim($_POST["password"]))) {
+    $password_err = "Por favor, insira sua senha.";
+  } else {
+    $password = trim($_POST["password"]);
+  }
+
+  if (empty($email_err) && empty($password_err)) {
+    $sql = "SELECT id_user, email, password FROM users WHERE email = :email";
+
+    if ($stmt = $pdo->prepare($sql)) {
+      $stmt->bindParam(":email", $param_email, PDO::PARAM_STR);
+
+      $param_email = trim($_POST["email"]);
+
+      if ($stmt->execute()) {
+        if ($stmt->rowCount() == 1) {
+          if ($row = $stmt->fetch()) {
+            $id = $row["id_user"];
+            $username = $row["email"];
+            $hashed_password = $row["password"];
+            if (password_verify($password, $hashed_password)) {
+              session_start();
+
+              $_SESSION["loggedin"] = true;
+              $_SESSION["id_user"] = $id;
+              $_SESSION["username"] = $email;
+
+              header("location: index.php");
+            } else {
+              $login_error = "Email de usuário ou senha inválidos.";
+            }
+          }
+        } else {
+          $login_error = "Email de usuário ou senha inválidos.";
         }
+      } else {
+        echo "Ops! Algo deu errado. Por favor, tente novamente mais tarde.";
+      }
+
+      unset($stmt);
     }
-    
-    unset($pdo);
+  }
+
+  unset($pdo);
 }
 ?>
 
@@ -130,19 +130,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
               <br>
               <p>Registre-se: <a href="register.php">aqui</a></p>
               <br>
-              <input type="submit" value = "Enviar" class="p-1 mb-1 bg-success text-white btn btn-success">
+              <input type="submit" value="Enviar" class="p-1 mb-1 bg-success text-white btn btn-success">
             </form>
           </div>
         </div>
       </div>
     </nav>
   </header>
-  <div id="carouselExampleIndicators" class="carousel slide">
-    <div class="carousel-indicators">
-      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-    </div>
+  <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
       <div class="carousel-item active">
         <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.silocc.com.au%2Fwp-content%2Fuploads%2F2019%2F03%2FIMG_1454.jpg&f=1&nofb=1&ipt=228874f321bad5ee3dfb169c1a029f16c5f3fc0e95c7d8947c73a1c371f7694d&ipo=images" class="d-block w-100" alt="...">
@@ -154,15 +149,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.silocc.com.au%2Fwp-content%2Fuploads%2F2019%2F03%2FIMG_1454.jpg&f=1&nofb=1&ipt=228874f321bad5ee3dfb169c1a029f16c5f3fc0e95c7d8947c73a1c371f7694d&ipo=images" class="d-block w-100" alt="...">
       </div>
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-    </button>
   </div>
+
   <footer class="text-center bg-body-tertiary">
     <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
       © 2024 Copyright:
